@@ -41,7 +41,7 @@ public interface TalentMapper {
      * @param id
      * @return int
      */
-    public int deleteTalentById(Long id);
+    public int deleteTalentById(Talent talent);
 
     /**
      * 依据ids批量删除数据

@@ -114,7 +114,7 @@
         where id = #{id}
     </update>
 
-    <update id="deleteTalentById" parameterType="Long">
+    <update id="deleteTalentById" parameterType="Talent">
       update talent_lib
       <trim prefix="set" suffixOverrides=",">
           <if test="id !=null"> isDel =  1,</if>

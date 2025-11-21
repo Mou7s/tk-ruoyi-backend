@@ -31,6 +31,10 @@ public class TalentController extends BaseController {
     private ITalentService talentService;
 
 
+    /**
+     * 删除文件
+     * @param path
+     */
     public static void deleteFile(String path) {
         File file =new File(path);
         if(file.exists())
@@ -44,6 +48,11 @@ public class TalentController extends BaseController {
             fileTwo.delete();
     }
 
+    /**
+     * 获取人才列表信息
+     * @param talent
+     * @return
+     */
     @Log(title="人才库列表")
     @GetMapping("/getTalentList")
     public TableDataInfo getTalentList(Talent talent) {
@@ -52,16 +61,25 @@ public class TalentController extends BaseController {
         return getDataTable(list);
     }
 
+    /**
+     * 添加人才信息
+     * @param talent
+     * @return
+     */
     @Log(title="添加人才数据", businessType = BusinessType.INSERT)
     @PostMapping("/addTalentInfo")
     public AjaxResult addTalentInfo(@RequestBody Talent talent){
         talent.setCreateTime(new Date());
         talent.setCreator(SecurityUtils.getUsername());
-//        return toAjax(talentService.insertTalent(talent));
         talentService.insertTalent(talent);
        return AjaxResult.success(talent);
     }
 
+    /**
+     * 修改人才信息
+     * @param talent
+     * @return
+     */
     @Log(title ="修改人才数据")
     @PostMapping("/editTalentInfo")
     public  AjaxResult editTalentInfo(@RequestBody Talent talent){
@@ -104,6 +122,13 @@ public class TalentController extends BaseController {
 
     private ExecutorService executorService = Executors.newCachedThreadPool();
 
+
+    /**
+     * 人才资料图片上传
+     * @param imageFiles
+     * @return
+     * @throws Exception
+     */
     @Log(title = "人才资料图片上传")
     @PostMapping("/talentPic")
     public AjaxResult savePic(@RequestParam("imageFiles") MultipartFile[] imageFiles) throws Exception{
@@ -131,6 +156,11 @@ public class TalentController extends BaseController {
         return success(successPaths);
     }
 
+    /**
+     * 获取人才信息依据主键信息
+     * @param id
+     * @return
+     */
     @Log(title="获取人才信息")
     @GetMapping("/getTalentInfo")
     public AjaxResult getTalentInfo(@RequestParam Long id) {
@@ -138,13 +168,29 @@ public class TalentController extends BaseController {
     }
 
 
+    /**
+     *  依据ids批量删除人才信息
+     * @param ids
+     * @return
+     */
     @Log(title = "删除人才", businessType = BusinessType.DELETE)
     @DeleteMapping("/delTalentByIds")
     public AjaxResult delTalent(@RequestBody Long[] ids) {
         return AjaxResult.success(talentService.deleteTalentByIds(ids));
-//        return AjaxResult.success();
     }
 
+    /**
+     * 依据id删除人才信息
+     * @param id
+     * @return
+     */
+    @Log(title="删除", businessType = BusinessType.DELETE)
+    @DeleteMapping("/delTalentById/{id}")
+    public AjaxResult delTalentById(@PathVariable Long id){
+        Talent talent =  new Talent();
+        talent.setId(id);
+        return  AjaxResult.success(talentService.deleteTalentById(talent));
+    }
 
 
 

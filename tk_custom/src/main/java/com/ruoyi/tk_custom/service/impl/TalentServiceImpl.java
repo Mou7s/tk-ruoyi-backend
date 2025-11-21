@@ -63,8 +63,8 @@ public class TalentServiceImpl implements ITalentService {
      * @return
      */
     @Override
-    public int deleteTalentById(Long id) {
-        return talentMapper.deleteTalentById(id);
+    public int deleteTalentById(Talent talent) {
+        return talentMapper.deleteTalentById(talent);
     }
 
     /**

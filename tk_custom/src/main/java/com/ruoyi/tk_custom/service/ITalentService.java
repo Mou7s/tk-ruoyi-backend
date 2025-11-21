@@ -42,7 +42,7 @@ public interface ITalentService {
      * @param id
      * @return
      */
-    public int deleteTalentById(Long id);
+    public int deleteTalentById(Talent talent);
 
     /**
      * 已经ids批量删除人才信息
