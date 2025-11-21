@@ -37,7 +37,7 @@ public class Talent extends BaseEntity
     // 是否删除
     private int isDel;
     // 性别
-    private int gender;
+    private Integer gender;
     // 备注
     private String remark;
     // 籍贯
@@ -144,11 +144,11 @@ public class Talent extends BaseEntity
         this.isDel = isDel;
     }
 
-    public int getGender() {
+    public Integer getGender() {
         return gender;
     }
 
-    public void setGender(int gender) {
+    public void setGender(Integer gender) {
         this.gender = gender;
     }
 

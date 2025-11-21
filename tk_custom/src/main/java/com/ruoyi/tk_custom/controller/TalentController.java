@@ -69,6 +69,28 @@ public class TalentController extends BaseController {
     @Log(title="添加人才数据", businessType = BusinessType.INSERT)
     @PostMapping("/addTalentInfo")
     public AjaxResult addTalentInfo(@RequestBody Talent talent){
+
+        if (talent.getName() == null || talent.getName().trim().isEmpty()) {
+            return AjaxResult.error("名称不能为空");
+        }
+        if (talent.getNativePlace() == null || talent.getNativePlace().trim().isEmpty()) {
+            return AjaxResult.error("籍贯不能为空");
+        }
+        if (talent.getPosition() == null || talent.getPosition().trim().isEmpty()) {
+            return AjaxResult.error("岗位不能为空");
+        }
+        if (talent.getPhoneNumber() == null || talent.getPhoneNumber().trim().isEmpty()) {
+            return AjaxResult.error("电话不能为空");
+        }
+        if (talent.getEduId() == null || talent.getEduId().trim().isEmpty()) {
+            return AjaxResult.error("学历不能为空");
+        }
+        if (talent.getGender() == null ) {
+            return AjaxResult.error("性别不能为空");
+        }
+        if (talent.getBirthDate() == null) {
+            return AjaxResult.error("出生日期不能为空");
+        }
         talent.setCreateTime(new Date());
         talent.setCreator(SecurityUtils.getNickname());
         talentService.insertTalent(talent);
@@ -83,6 +105,27 @@ public class TalentController extends BaseController {
     @Log(title ="修改人才数据")
     @PostMapping("/editTalentInfo")
     public  AjaxResult editTalentInfo(@RequestBody Talent talent){
+        if (talent.getName() == null || talent.getName().trim().isEmpty()) {
+            return AjaxResult.error("名称不能为空");
+        }
+        if (talent.getNativePlace() == null || talent.getNativePlace().trim().isEmpty()) {
+            return AjaxResult.error("籍贯不能为空");
+        }
+        if (talent.getPosition() == null || talent.getPosition().trim().isEmpty()) {
+            return AjaxResult.error("岗位不能为空");
+        }
+        if (talent.getPhoneNumber() == null || talent.getPhoneNumber().trim().isEmpty()) {
+            return AjaxResult.error("电话不能为空");
+        }
+        if (talent.getEduId() == null || talent.getEduId().trim().isEmpty()) {
+            return AjaxResult.error("学历不能为空");
+        }
+        if (talent.getGender() == null ) {
+            return AjaxResult.error("性别不能为空");
+        }
+        if (talent.getBirthDate() == null) {
+            return AjaxResult.error("出生日期不能为空");
+        }
         Talent oldTalent = talentService.getTalentById(talent.getId());
         String oldImagePathsStr = oldTalent.getAttachments();
         String[] oldImagePaths = new String[0];
