@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.tk_custom.mapper.PdGdzcMapper">
+    
+    <resultMap type="PdGdzc" id="PdGdzcResult">
+        <result property="id"    column="id"    />
+        <result property="kpBm"    column="kp_bm"    />
+        <result property="zcBm"    column="zc_bm"    />
+        <result property="name"    column="name"    />
+        <result property="ggxh"    column="ggxh"    />
+        <result property="zcLocation"    column="zc_location"    />
+        <result property="useDept"    column="use_dept"    />
+        <result property="pddate"    column="pddate"    />
+        <result property="creator"    column="creator"    />
+        <result property="remark"    column="remark"    />
+        <result property="number"    column="number"    />
+    </resultMap>
+
+    <sql id="selectPdGdzcVo">
+        select id, kp_bm, zc_bm, name, ggxh, zc_location, use_dept, pddate, creator, remark, number from pd_gdzc
+    </sql>
+
+    <select id="selectPdGdzcList" parameterType="PdGdzc" resultMap="PdGdzcResult">
+        <include refid="selectPdGdzcVo"/>
+        <where>  
+            <if test="kpBm != null  and kpBm != ''"> and kp_bm = #{kpBm}</if>
+            <if test="zcBm != null  and zcBm != ''"> and zc_bm = #{zcBm}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="ggxh != null  and ggxh != ''"> and ggxh like concat('%', #{ggxh}, '%')</if>
+            <if test="zcLocation != null  and zcLocation != ''"> and zc_location like concat('%', #{zcLocation}, '%')</if>
+            <if test="useDept != null  and useDept != ''"> and use_dept like concat('%', #{useDept}, '%')</if>
+            <if test="pddate != null  and pddate != ''"> and pddate like concat('%', #{pddate}, '%')</if>
+            <if test="creator != null  and creator != ''"> and creator like concat('%', #{creator}, '%')</if>
+            <if test="number != null "> and number = #{number}</if>
+        </where>
+    </select>
+    
+    <select id="selectPdGdzcById" parameterType="String" resultMap="PdGdzcResult">
+        <include refid="selectPdGdzcVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertPdGdzc" parameterType="PdGdzc">
+        insert into pd_gdzc
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="kpBm != null and kpBm != ''">kp_bm,</if>
+            <if test="zcBm != null and zcBm != ''">zc_bm,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="ggxh != null and ggxh != ''">ggxh,</if>
+            <if test="zcLocation != null and zcLocation != ''">zc_location,</if>
+            <if test="useDept != null and useDept != ''">use_dept,</if>
+            <if test="pddate != null">pddate,</if>
+            <if test="creator != null">creator,</if>
+            <if test="remark != null">remark,</if>
+            <if test="number != null">number,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="kpBm != null and kpBm != ''">#{kpBm},</if>
+            <if test="zcBm != null and zcBm != ''">#{zcBm},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="ggxh != null and ggxh != ''">#{ggxh},</if>
+            <if test="zcLocation != null and zcLocation != ''">#{zcLocation},</if>
+            <if test="useDept != null and useDept != ''">#{useDept},</if>
+            <if test="pddate != null">#{pddate},</if>
+            <if test="creator != null">#{creator},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="number != null">#{number},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePdGdzc" parameterType="PdGdzc">
+        update pd_gdzc
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="kpBm != null and kpBm != ''">kp_bm = #{kpBm},</if>
+            <if test="zcBm != null and zcBm != ''">zc_bm = #{zcBm},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="ggxh != null and ggxh != ''">ggxh = #{ggxh},</if>
+            <if test="zcLocation != null and zcLocation != ''">zc_location = #{zcLocation},</if>
+            <if test="useDept != null and useDept != ''">use_dept = #{useDept},</if>
+            <if test="pddate != null">pddate = #{pddate},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="number != null">number = #{number},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePdGdzcById" parameterType="String">
+        delete from pd_gdzc where id = #{id}
+    </delete>
+
+    <delete id="deletePdGdzcByIds" parameterType="String">
+        delete from pd_gdzc where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

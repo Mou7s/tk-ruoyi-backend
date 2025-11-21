@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.tk_custom.mapper.TkVisitMapper">
+    
+    <resultMap type="TkVisit" id="TkVisitResult">
+        <result property="vDate"    column="v_date"    />
+        <result property="outTime"    column="outtime"    />
+        <result property="vName"    column="v_name"    />
+        <result property="vTelephone"    column="v_telephone"    />
+        <result property="vCardid"    column="v_cardid"    />
+        <result property="vReason"    column="v_reason"    />
+        <result property="receiver"    column="receiver"    />
+        <result property="carNumber"    column="car_number"    />
+        <result property="createdate"    column="createdate"    />
+        <result property="company"    column="company"    />
+        <result property="peoplecount"    column="peoplecount"    />
+        <result property="approve"    column="approve"    />
+        <result property="approvedate"    column="approvedate"    />
+        <result property="approver"    column="approver"    />
+        <result property="needshoes"    column="needshoes"    />
+        <result property="room"    column="room"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+    <sql id="selectTkVisitVo">
+        select v_date,outtime, v_name, v_telephone, v_cardid, v_reason, receiver, car_number, createdate, company, peoplecount, approve, approvedate, approver, needshoes, room, id from tk_visit
+    </sql>
+
+    <select id="selectTkVisitList" parameterType="TkVisit" resultMap="TkVisitResult">
+        <include refid="selectTkVisitVo"/>
+        <where>  
+            <if test="vDate != null "> and v_date > #{vDate}</if>
+            <if test="isLook != null "> and (TO_DAYS(v_date) = TO_DAYS(NOW()) - 1  or TO_DAYS(v_date) = TO_DAYS(NOW())) and outtime is  null</if>
+            <if test="outTime != null "> and outtime > #{outTime}</if>
+            <if test="vName != null  and vName != ''"> and v_name like concat('%', #{vName}, '%')</if>
+            <if test="vTelephone != null  and vTelephone != ''"> and v_telephone like concat('%', #{vTelephone}, '%') </if>
+            <if test="vCardid != null  and vCardid != ''"> and v_cardid like concat('%', #{vCardid}, '%')</if>
+            <if test="vReason != null  and vReason != ''"> and v_reason like concat('%', #{vReason}, '%')</if>
+            <if test="receiver != null  and receiver != ''"> and receiver like concat('%', #{receiver}, '%')</if>
+            <if test="carNumber != null  and carNumber != ''"> and car_number like concat('%', #{carNumber}, '%')</if>
+            <if test="createdate != null "> and createdate = #{createdate}</if>
+            <if test="company != null  and company != ''"> and company like concat('%', #{company}, '%')</if>
+            <if test="peoplecount != null  and peoplecount != ''"> and peoplecount = #{peoplecount}</if>
+            <if test="approve != null  and approve != ''"> and approve = #{approve}</if>
+            <if test="approvedate != null "> and approvedate = #{approvedate}</if>
+            <if test="approver != null  and approver != ''"> and approver = #{approver}</if>
+            <if test="needshoes != null  and needshoes != ''"> and needshoes = #{needshoes}</if>
+            <if test="room != null  and room != ''"> and room = #{room}</if>
+        </where>
+        order by v_date desc
+    </select>
+    
+    <select id="selectTkVisitById" parameterType="String" resultMap="TkVisitResult">
+        <include refid="selectTkVisitVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectTkVisitByPhoneNumber" parameterType="String" resultMap="TkVisitResult">
+       select  v_date,outtime, v_name, v_telephone, v_cardid, v_reason, receiver, car_number, company, peoplecount, needshoes, room from tk_visit
+        where v_telephone = #{vTelephone}
+        ORDER by v_date DESC limit 1
+    </select>
+    <insert id="insertTkVisit" parameterType="TkVisit">
+        insert into tk_visit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vDate != null">v_date,</if>
+            <if test="outTime != null">outtime,</if>
+            <if test="vName != null">v_name,</if>
+            <if test="vTelephone != null">v_telephone,</if>
+            <if test="vCardid != null">v_cardid,</if>
+            <if test="vReason != null">v_reason,</if>
+            <if test="receiver != null">receiver,</if>
+            <if test="carNumber != null">car_number,</if>
+            <if test="createdate != null">createdate,</if>
+            <if test="company != null">company,</if>
+            <if test="peoplecount != null">peoplecount,</if>
+            <if test="approve != null">approve,</if>
+            <if test="approvedate != null">approvedate,</if>
+            <if test="approver != null">approver,</if>
+            <if test="needshoes != null">needshoes,</if>
+            <if test="room != null">room,</if>
+            <if test="id != null">id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vDate != null">#{vDate},</if>
+            <if test="outTime != null">#{outtime},</if>
+            <if test="vName != null">#{vName},</if>
+            <if test="vTelephone != null">#{vTelephone},</if>
+            <if test="vCardid != null">#{vCardid},</if>
+            <if test="vReason != null">#{vReason},</if>
+            <if test="receiver != null">#{receiver},</if>
+            <if test="carNumber != null">#{carNumber},</if>
+            <if test="createdate != null">#{createdate},</if>
+            <if test="company != null">#{company},</if>
+            <if test="peoplecount != null">#{peoplecount},</if>
+            <if test="approve != null">#{approve},</if>
+            <if test="approvedate != null">#{approvedate},</if>
+            <if test="approver != null">#{approver},</if>
+            <if test="needshoes != null">#{needshoes},</if>
+            <if test="room != null">#{room},</if>
+            <if test="id != null">#{id},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTkVisit" parameterType="TkVisit">
+        update tk_visit
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="vDate != null">v_date = #{vDate},</if>
+            <if test="outTime != null">outtime = #{outTime},</if>
+            <if test="vName != null">v_name = #{vName},</if>
+            <if test="vTelephone != null">v_telephone = #{vTelephone},</if>
+            <if test="vCardid != null">v_cardid = #{vCardid},</if>
+            <if test="vReason != null">v_reason = #{vReason},</if>
+            <if test="receiver != null">receiver = #{receiver},</if>
+            <if test="carNumber != null">car_number = #{carNumber},</if>
+            <if test="createdate != null">createdate = #{createdate},</if>
+            <if test="company != null">company = #{company},</if>
+            <if test="peoplecount != null">peoplecount = #{peoplecount},</if>
+            <if test="approve != null">approve = #{approve},</if>
+            <if test="approvedate != null">approvedate = #{approvedate},</if>
+            <if test="approver != null">approver = #{approver},</if>
+            <if test="needshoes != null">needshoes = #{needshoes},</if>
+            <if test="room != null">room = #{room},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTkVisitById" parameterType="String">
+        delete from tk_visit where id = #{id}
+    </delete>
+
+    <delete id="deleteTkVisitByIds" parameterType="String">
+        delete from tk_visit where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

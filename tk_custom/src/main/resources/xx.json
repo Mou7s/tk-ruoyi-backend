@@ -1,0 +1,31 @@
+{
+  "Model": {
+    "FBillEntry": [
+      {
+        "FMaterialId": {
+          "FNumber": "NAD0010032"
+        },
+        "FQty": 1.0,
+        "FLot": {
+          "FNumber": "1"
+        },
+        "FSrcStockId": {
+          "FNumber": "CTK12"
+        },
+        "FSrcStockLocId": {
+          "FSRCSTOCKLOCID__FF100009": {
+            "FNumber": "2"
+          }
+        },
+        "FDestStockId": {
+          "FNumber": "CTK18"
+        },
+        "FDestStockLocId": {
+          "FDESTSTOCKLOCID__FF100012": {
+            "FNumber": "2"
+          }
+        }
+      }
+    ]
+  }
+}

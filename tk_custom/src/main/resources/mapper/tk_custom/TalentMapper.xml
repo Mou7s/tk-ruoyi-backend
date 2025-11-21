@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.tk_custom.mapper.TalentMapper">
+
+    <resultMap type="Talent" id="TalentResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="birthDate" column="birthDate"/>
+        <result property="gender" column="gender"/>
+        <result property="schoolName" column="schoolName"/>
+        <result property="eduId" column="eduId"/>
+        <result property="isMarriedId" column="isMarriedId"/>
+        <result property="position" column="position"/>
+        <result property="phoneNumber" column="phoneNumber"/>
+        <result property="Attachments" column="Attachments"/>
+        <result property="recordStatus" column="recordStatus"/>
+        <result property="isDel" column="isDel"/>
+        <result property="creator" column="creator"/>
+        <result property="createTime" column="createTime"/>
+        <result property="modifier" column="modifier"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="remark" column="remark"/>
+        <result property="nativePlace" column="nativePlace"/>
+        <result property="interviewTime" column="interviewTime"/>
+    </resultMap>
+
+    <sql id="selectTalent">
+      select id,`name`,birthDate,schoolName,eduId,isMarriedId,`position`,phoneNumber,attachments,recordStatus,isDel,creator,createTime,modifier,updateTime,`remark`,gender,nativePlace,interviewTime from talent_lib
+    </sql>
+    <select id="getTalentList" parameterType="Talent" resultMap="TalentResult">
+        <include refid="selectTalent"/>
+        <where>
+            <if test="name != null  and name != ''">and `name`  like concat( '%',#{name},'%')</if>
+            <if test="eduId != null  and eduId != ''">and eduId = #{eduId}</if>
+            <if test="schoolName != null  and schoolName != ''">and schoolName like concat('%', #{schoolName},
+                '%')
+            </if>
+            <if test="position != null  and position != ''">and `position` like concat('%',
+                #{position},'%')
+            </if>
+            and isDel  =0
+        </where>
+        order by interviewTime DESC , createTime DESC
+    </select>
+    <select id="getTalentById" parameterType="Long" resultMap="TalentResult">
+        <include refid="selectTalent"/>
+        where id = #{id} and isDel = 0
+    </select>
+
+    <insert id="insertTalent" parameterType="Talent" useGeneratedKeys="true" keyProperty="id">
+        insert into talent_lib
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">`name`,</if>
+            <if test="birthDate != null">birthDate,</if>
+            <if test="eduId != null">eduId,</if>
+            <if test="isMarriedId != null">isMarriedId,</if>
+            <if test="position != null">`position`,</if>
+            <if test="schoolName != null">schoolName,</if>
+            <if test="phoneNumber != null">phoneNumber,</if>
+            <if test="Attachments != null">Attachments,</if>
+            <if test="recordStatus != null">recordStatus,</if>
+            <if test="isDel != null">isDel,</if>
+            <if test="creator != null">creator,</if>
+            <if test="createTime != null">createTime,</if>
+            <if test="remark != null">remark,</if>
+            <if test="gender != null">gender,</if>
+            <if test="nativePlace != null">nativePlace,</if>
+            <if test="interviewTime != null">interviewTime,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="birthDate != null">#{birthDate},</if>
+            <if test="eduId != null">#{eduId},</if>
+            <if test="isMarriedId != null">#{isMarriedId},</if>
+            <if test="position != null">#{position},</if>
+            <if test="schoolName != null">#{schoolName},</if>
+            <if test="phoneNumber != null">#{phoneNumber},</if>
+            <if test="Attachments != null">#{Attachments},</if>
+            <if test="recordStatus != null">#{recordStatus},</if>
+            <if test="isDel != null">isDel,</if>
+            <if test="creator != null">#{creator},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="nativePlace != null">#{nativePlace},</if>
+            <if test="interviewTime != null">#{interviewTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTalent" parameterType="Talent">
+        update talent_lib
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">`name` = #{name},</if>
+            <if test="birthDate != null">birthDate = #{birthDate},</if>
+            <if test="eduId != null">eduId = #{eduId},</if>
+            <if test="isMarriedId != null">isMarriedId = #{isMarriedId},</if>
+            <if test="position != null">`position` = #{position},</if>
+            <if test="schoolName != null">schoolName = #{schoolName},</if>
+            <if test="phoneNumber != null">phoneNumber = #{phoneNumber},</if>
+            <if test="Attachments != null">Attachments = #{Attachments},</if>
+            <if test="recordStatus != null">recordStatus = #{recordStatus},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="isDel != null">isDel = #{isDel},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="createTime != null">createTime = #{createTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="modifier != null">modifier = #{modifier},</if>
+            <if test="updateTime != null">updateTime = #{updateTime},</if>
+            <if test="nativePlace != null">nativePlace = #{nativePlace},</if>
+            <if test="interviewTime != null">interviewTime = #{interviewTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="deleteTalentById" parameterType="Long">
+      update talent_lib
+      <trim prefix="set" suffixOverrides=",">
+          <if test="id !=null"> isDel =  1,</if>
+      </trim>
+        where id = #{id}
+    </update>
+
+    <update id="deleteTalentByIds" >
+        update talent_lib set isDel = 1 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+</mapper>

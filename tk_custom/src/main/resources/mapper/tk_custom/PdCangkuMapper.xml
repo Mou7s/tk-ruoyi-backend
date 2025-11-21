@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.tk_custom.mapper.PdCangkuMapper">
+    
+    <resultMap type="PdCangku" id="PdCangkuResult">
+        <result property="id"    column="id"    />
+        <result property="mertiralid"    column="mertiralid"    />
+        <result property="mertiralname"    column="mertiralname"    />
+        <result property="fengzhuang"    column="fengzhuang"    />
+        <result property="yinzi"    column="yinzi"    />
+        <result property="kuwei"    column="kuwei"    />
+        <result property="number"    column="number"    />
+        <result property="pddate"    column="pddate"    />
+        <result property="remark"    column="remark"    />
+        <result property="creator"    column="creator"    />
+    </resultMap>
+
+    <sql id="selectPdCangkuVo">
+        select id, mertiralid, mertiralname, fengzhuang, yinzi, kuwei, number, pddate, remark,creator from pd_cangku
+    </sql>
+
+    <select id="selectPdCangkuList" parameterType="PdCangku" resultMap="PdCangkuResult">
+        <include refid="selectPdCangkuVo"/>
+        <where>  
+            <if test="mertiralid != null  and mertiralid != ''"> and mertiralid = #{mertiralid}</if>
+            <if test="mertiralname != null  and mertiralname != ''"> and mertiralname like concat('%', #{mertiralname}, '%')</if>
+            <if test="fengzhuang != null  and fengzhuang != ''"> and fengzhuang like concat('%', #{fengzhuang}, '%')</if>
+            <if test="yinzi != null  and yinzi != ''"> and yinzi like concat('%', #{yinzi}, '%')</if>
+            <if test="kuwei != null  and kuwei != ''"> and kuwei like concat('%', #{kuwei}, '%')</if>
+            <if test="number != null "> and number = #{number}</if>
+            <if test="creator != null "> and creator = #{creator}</if>
+            <if test="pddate != null  and pddate != ''"> and pddate like concat('%', #{pddate}, '%')</if>
+        </where>
+        order by pddate DESC
+    </select>
+    <select id="selectPdCangkuById" parameterType="String" resultMap="PdCangkuResult">
+        <include refid="selectPdCangkuVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertPdCangku" parameterType="PdCangku">
+        insert into pd_cangku
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="mertiralid != null and mertiralid != ''">mertiralid,</if>
+            <if test="mertiralname != null and mertiralname != ''">mertiralname,</if>
+            <if test="fengzhuang != null and fengzhuang != ''">fengzhuang,</if>
+            <if test="yinzi != null and yinzi != ''">yinzi,</if>
+            <if test="kuwei != null and kuwei != ''">kuwei,</if>
+            <if test="number != null">number,</if>
+            <if test="pddate != null">pddate,</if>
+            <if test="remark != null">remark,</if>
+            <if test="creator != null">creator,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="mertiralid != null and mertiralid != ''">#{mertiralid},</if>
+            <if test="mertiralname != null and mertiralname != ''">#{mertiralname},</if>
+            <if test="fengzhuang != null and fengzhuang != ''">#{fengzhuang},</if>
+            <if test="yinzi != null and yinzi != ''">#{yinzi},</if>
+            <if test="kuwei != null and kuwei != ''">#{kuwei},</if>
+            <if test="number != null">#{number},</if>
+            <if test="pddate != null">#{pddate},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="creator != null">#{creator},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePdCangku" parameterType="PdCangku">
+        update pd_cangku
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="mertiralid != null and mertiralid != ''">mertiralid = #{mertiralid},</if>
+            <if test="mertiralname != null and mertiralname != ''">mertiralname = #{mertiralname},</if>
+            <if test="fengzhuang != null and fengzhuang != ''">fengzhuang = #{fengzhuang},</if>
+            <if test="yinzi != null and yinzi != ''">yinzi = #{yinzi},</if>
+            <if test="kuwei != null and kuwei != ''">kuwei = #{kuwei},</if>
+            <if test="number != null">number = #{number},</if>
+            <if test="pddate != null">pddate = #{pddate},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePdCangkuById" parameterType="String">
+        delete from pd_cangku where id = #{id}
+    </delete>
+
+    <delete id="deletePdCangkuByIds" parameterType="String">
+        delete from pd_cangku where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

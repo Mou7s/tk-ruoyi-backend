@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.tk_custom.mapper.WxApproveMapper">
+    
+    <resultMap type="WxApprove" id="WxApproveResult">
+        <result property="spNo"    column="sp_no"    />
+        <result property="spName"    column="sp_name"    />
+        <result property="spStatus"    column="sp_status"    />
+        <result property="templateId"    column="template_id"    />
+        <result property="applyTime"    column="apply_time"    />
+        <result property="applyerUserid"    column="applyer_userid"    />
+        <result property="applyerPartyid"    column="applyer_partyid"    />
+        <result property="applyDataContents"    column="apply_data_contents"    />
+        <result property="outtime"    column="outtime"    />
+        <result property="backtime"    column="backtime"    />
+        <result property="auditerid"    column="auditerid"    />
+    </resultMap>
+
+    <sql id="selectWxApproveVo">
+        select sp_no, sp_name, sp_status, template_id, apply_time, applyer_userid, applyer_partyid, apply_data_contents, outtime, backtime, auditerid from wx_approve
+    </sql>
+
+    <select id="selectWxApproveList" parameterType="WxApprove" resultMap="WxApproveResult">
+        <include refid="selectWxApproveVo"/>
+        <where>
+            sp_name='外出放行条' and (outtime is null or backtime is null)
+            <if test="spName != null  and spName != ''"> and sp_name like concat('%', #{spName}, '%')</if>
+            <if test="spStatus != null  and spStatus != ''"> and sp_status = #{spStatus}</if>
+            <if test="templateId != null  and templateId != ''"> and template_id = #{templateId}</if>
+            <if test="applyTime != null "> and apply_time = #{applyTime}</if>
+            <if test="applyerUserid != null  and applyerUserid != ''"> and applyer_userid = #{applyerUserid}</if>
+            <if test="applyerPartyid != null  and applyerPartyid != ''"> and applyer_partyid = #{applyerPartyid}</if>
+            <if test="applyDataContents != null  and applyDataContents != ''"> and apply_data_contents = #{applyDataContents}</if>
+            <if test="outtime != null "> and outtime = #{outtime}</if>
+            <if test="backtime != null "> and backtime = #{backtime}</if>
+            <if test="auditerid != null  and auditerid != ''"> and auditerid = #{auditerid}</if>
+        </where>
+    </select>
+    <select id="selectWxApproveListForOut"  resultMap="WxApproveResult">
+        <include refid="selectWxApproveVo"/>
+        <where>
+            sp_name='物品放行' and outtime is null
+        </where>
+        order by apply_time DESC
+    </select>
+    <select id="selectWxApproveListForBack"  resultMap="WxApproveResult">
+        <include refid="selectWxApproveVo"/>
+        <where>
+            sp_name='物品放行' and backtime is null and outtime is not null
+        </where>
+        order by apply_time DESC
+    </select>
+    <select id="selectWxApproveListForOut1"  resultMap="WxApproveResult">
+        <include refid="selectWxApproveVo"/>
+        <where>
+            sp_name='外出' and outtime is null
+        </where>
+        order by apply_time DESC
+    </select>
+    <select id="selectWxApproveListForBack1"  resultMap="WxApproveResult">
+        <include refid="selectWxApproveVo"/>
+        <where>
+            sp_name='外出' and backtime is null and outtime is not null
+        </where>
+        order by apply_time DESC
+    </select>
+    <select id="selectWxApproveBySpNo" parameterType="String" resultMap="WxApproveResult">
+        <include refid="selectWxApproveVo"/>
+        where sp_no = #{spNo}
+    </select>
+
+    <insert id="insertWxApprove" parameterType="WxApprove">
+        insert into wx_approve
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="spNo != null">sp_no,</if>
+            <if test="spName != null">sp_name,</if>
+            <if test="spStatus != null">sp_status,</if>
+            <if test="templateId != null">template_id,</if>
+            <if test="applyTime != null">apply_time,</if>
+            <if test="applyerUserid != null">applyer_userid,</if>
+            <if test="applyerPartyid != null">applyer_partyid,</if>
+            <if test="applyDataContents != null">apply_data_contents,</if>
+            <if test="outtime != null">outtime,</if>
+            <if test="backtime != null">backtime,</if>
+            <if test="auditerid != null">auditerid,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="spNo != null">#{spNo},</if>
+            <if test="spName != null">#{spName},</if>
+            <if test="spStatus != null">#{spStatus},</if>
+            <if test="templateId != null">#{templateId},</if>
+            <if test="applyTime != null">#{applyTime},</if>
+            <if test="applyerUserid != null">#{applyerUserid},</if>
+            <if test="applyerPartyid != null">#{applyerPartyid},</if>
+            <if test="applyDataContents != null">#{applyDataContents},</if>
+            <if test="outtime != null">#{outtime},</if>
+            <if test="backtime != null">#{backtime},</if>
+            <if test="auditerid != null">#{auditerid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWxApprove" parameterType="WxApprove">
+        update wx_approve
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="spName != null">sp_name = #{spName},</if>
+            <if test="spStatus != null">sp_status = #{spStatus},</if>
+            <if test="templateId != null">template_id = #{templateId},</if>
+            <if test="applyTime != null">apply_time = #{applyTime},</if>
+            <if test="applyerUserid != null">applyer_userid = #{applyerUserid},</if>
+            <if test="applyerPartyid != null">applyer_partyid = #{applyerPartyid},</if>
+            <if test="applyDataContents != null">apply_data_contents = #{applyDataContents},</if>
+            <if test="outtime != null">outtime = #{outtime},</if>
+            <if test="backtime != null">backtime = #{backtime},</if>
+            <if test="auditerid != null">auditerid = #{auditerid},</if>
+        </trim>
+        where sp_no = #{spNo}
+    </update>
+
+    <delete id="deleteWxApproveBySpNo" parameterType="String">
+        delete from wx_approve where sp_no = #{spNo}
+    </delete>
+
+    <delete id="deleteWxApproveBySpNos" parameterType="String">
+        delete from wx_approve where sp_no in 
+        <foreach item="spNo" collection="array" open="(" separator="," close=")">
+            #{spNo}
+        </foreach>
+    </delete>
+</mapper>

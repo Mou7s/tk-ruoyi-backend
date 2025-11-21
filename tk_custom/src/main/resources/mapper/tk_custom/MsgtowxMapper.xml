@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.tk_custom.mapper.MsgtowxMapper">
+    
+    <resultMap type="Msgtowx" id="MsgtowxResult">
+        <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
+        <result property="isSend"    column="isSend"    />
+        <result property="receiverIds"    column="receiverIds"    />
+        <result property="createtime"    column="createtime"    />
+        <result property="parentid"    column="parentid"    />
+        <result property="msg"    column="msg"    />
+    </resultMap>
+
+    <sql id="selectMsgtowxVo">
+        select id, type, isSend, receiverIds, createtime, parentid, msg from msgtowx
+    </sql>
+
+    <select id="selectMsgtowxList" parameterType="Msgtowx" resultMap="MsgtowxResult">
+        <include refid="selectMsgtowxVo"/>
+        <where>  
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="isSend != null  and isSend != ''"> and isSend = #{isSend}</if>
+            <if test="receiverIds != null  and receiverIds != ''"> and receiverIds = #{receiverIds}</if>
+            <if test="createtime != null "> and createtime = #{createtime}</if>
+            <if test="parentid != null  and parentid != ''"> and parentid = #{parentid}</if>
+            <if test="msg != null  and msg != ''"> and msg = #{msg}</if>
+        </where>
+        order by id DESC ;
+    </select>
+    
+    <select id="selectMsgtowxById" parameterType="Long" resultMap="MsgtowxResult">
+        <include refid="selectMsgtowxVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertMsgtowx" parameterType="Msgtowx" useGeneratedKeys="true" keyProperty="id">
+        insert into msgtowx
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null">type,</if>
+            <if test="isSend != null">isSend,</if>
+            <if test="receiverIds != null">receiverIds,</if>
+            <if test="createtime != null">createtime,</if>
+            <if test="parentid != null">parentid,</if>
+            <if test="msg != null">msg,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="type != null">#{type},</if>
+            <if test="isSend != null">#{isSend},</if>
+            <if test="receiverIds != null">#{receiverIds},</if>
+            <if test="createtime != null">#{createtime},</if>
+            <if test="parentid != null">#{parentid},</if>
+            <if test="msg != null">#{msg},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMsgtowx" parameterType="Msgtowx">
+        update msgtowx
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null">type = #{type},</if>
+            <if test="isSend != null">isSend = #{isSend},</if>
+            <if test="receiverIds != null">receiverIds = #{receiverIds},</if>
+            <if test="createtime != null">createtime = #{createtime},</if>
+            <if test="parentid != null">parentid = #{parentid},</if>
+            <if test="msg != null">msg = #{msg},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMsgtowxById" parameterType="Long">
+        delete from msgtowx where id = #{id}
+    </delete>
+
+    <delete id="deleteMsgtowxByIds" parameterType="String">
+        delete from msgtowx where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

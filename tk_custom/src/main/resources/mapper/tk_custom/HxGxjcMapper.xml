@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.tk_custom.mapper.HxGxjcMapper">
+    
+    <resultMap type="HxGxjc" id="HxGxjcResult">
+        <result property="id"    column="id"    />
+        <result property="flowno"    column="flowno"    />
+        <result property="materialno"    column="materialno"    />
+        <result property="materialname"    column="materialname"    />
+        <result property="specification"    column="specification"    />
+        <result property="remark"    column="remark"    />
+        <result property="mechineName"    column="mechineName"    />
+        <result property="createdate"    column="createdate"    />
+        <result property="modifydate"    column="modifydate"    />
+        <result property="khdm"    column="khdm"    />
+        <result property="handler"    column="handler"    />
+        <result property="creator"    column="creator"    />
+        <result property="updater"    column="updater"    />
+        <result property="result"    column="result"    />
+        <result property="testCharge"    column="testCharge"    />
+        <result property="xiancai"    column="xiancai"    />
+        <result property="xianjing"    column="xianjing"    />
+        <result property="hgcs"    column="hgcs"    />
+        <result property="zdhg"    column="zdhg"    />
+        <result property="qhd"    column="qhd"    />
+        <result property="qzj"    column="qzj"    />
+        <result property="xll"    column="xll"    />
+        <result property="xtl"    column="xtl"    />
+    </resultMap>
+    <select id="getHandlerList" resultType="java.lang.String">
+        select distinct handler from hx_gxjc limit 100
+    </select>
+    <select id="getMechineList" resultType="java.lang.String">
+        select distinct mechineName from hx_gxjc limit 100
+    </select>
+    <sql id="selectHxGxjcVo">
+        select id, flowno, materialno, materialname, specification, remark, mechineName, createdate, modifydate, khdm, handler, creator, updater, result, testCharge, xiancai, xianjing, hgcs, zdhg, qhd, qzj, xll, xtl from hx_gxjc
+    </sql>
+
+    <select id="selectHxGxjcList" parameterType="HxGxjc" resultMap="HxGxjcResult">
+        <include refid="selectHxGxjcVo"/>
+        <where>  
+            <if test="flowno != null  and flowno != ''"> and flowno = #{flowno}</if>
+            <if test="materialno != null  and materialno != ''"> and materialno = #{materialno}</if>
+            <if test="materialname != null  and materialname != ''"> and materialname like concat('%', #{materialname}, '%')</if>
+            <if test="specification != null  and specification != ''"> and specification like concat('%', #{specification}, '%')</if>
+            <if test="mechineName != null  and mechineName != ''"> and mechineName like concat('%', #{mechineName}, '%')</if>
+            <if test="createdate != null "> and createdate = #{createdate}</if>
+            <if test="modifydate != null "> and modifydate = #{modifydate}</if>
+            <if test="khdm != null  and khdm != ''"> and khdm = #{khdm}</if>
+            <if test="handler != null  and handler != ''"> and handler = #{handler}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="updater != null  and updater != ''"> and updater = #{updater}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="testCharge != null  and testCharge != ''"> and testCharge = #{testCharge}</if>
+            <if test="xiancai != null  and xiancai != ''"> and xiancai = #{xiancai}</if>
+            <if test="xianjing != null  and xianjing != ''"> and xianjing = #{xianjing}</if>
+            <if test="hgcs != null  and hgcs != ''"> and hgcs = #{hgcs}</if>
+            <if test="zdhg != null  and zdhg != ''"> and zdhg = #{zdhg}</if>
+            <if test="qhd != null  and qhd != ''"> and qhd = #{qhd}</if>
+            <if test="qzj != null  and qzj != ''"> and qzj = #{qzj}</if>
+            <if test="xll != null  and xll != ''"> and xll = #{xll}</if>
+            <if test="xtl != null  and xtl != ''"> and xtl = #{xtl}</if>
+        </where>
+    </select>
+    
+    <select id="selectHxGxjcById" parameterType="Long" resultMap="HxGxjcResult">
+        <include refid="selectHxGxjcVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertHxGxjc" parameterType="HxGxjc" useGeneratedKeys="true" keyProperty="id">
+        insert into hx_gxjc
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="flowno != null and flowno != ''">flowno,</if>
+            <if test="materialno != null">materialno,</if>
+            <if test="materialname != null">materialname,</if>
+            <if test="specification != null">specification,</if>
+            <if test="remark != null">remark,</if>
+            <if test="mechineName != null">mechineName,</if>
+            <if test="createdate != null">createdate,</if>
+            <if test="modifydate != null">modifydate,</if>
+            <if test="khdm != null">khdm,</if>
+            <if test="handler != null">handler,</if>
+            <if test="creator != null">creator,</if>
+            <if test="updater != null">updater,</if>
+            <if test="result != null">result,</if>
+            <if test="testCharge != null">testCharge,</if>
+            <if test="xiancai != null">xiancai,</if>
+            <if test="xianjing != null">xianjing,</if>
+            <if test="hgcs != null">hgcs,</if>
+            <if test="zdhg != null">zdhg,</if>
+            <if test="qhd != null">qhd,</if>
+            <if test="qzj != null">qzj,</if>
+            <if test="xll != null">xll,</if>
+            <if test="xtl != null">xtl,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="flowno != null and flowno != ''">#{flowno},</if>
+            <if test="materialno != null">#{materialno},</if>
+            <if test="materialname != null">#{materialname},</if>
+            <if test="specification != null">#{specification},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="mechineName != null">#{mechineName},</if>
+            <if test="createdate != null">#{createdate},</if>
+            <if test="modifydate != null">#{modifydate},</if>
+            <if test="khdm != null">#{khdm},</if>
+            <if test="handler != null">#{handler},</if>
+            <if test="creator != null">#{creator},</if>
+            <if test="updater != null">#{updater},</if>
+            <if test="result != null">#{result},</if>
+            <if test="testCharge != null">#{testCharge},</if>
+            <if test="xiancai != null">#{xiancai},</if>
+            <if test="xianjing != null">#{xianjing},</if>
+            <if test="hgcs != null">#{hgcs},</if>
+            <if test="zdhg != null">#{zdhg},</if>
+            <if test="qhd != null">#{qhd},</if>
+            <if test="qzj != null">#{qzj},</if>
+            <if test="xll != null">#{xll},</if>
+            <if test="xtl != null">#{xtl},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHxGxjc" parameterType="HxGxjc">
+        update hx_gxjc
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="flowno != null and flowno != ''">flowno = #{flowno},</if>
+            <if test="materialno != null">materialno = #{materialno},</if>
+            <if test="materialname != null">materialname = #{materialname},</if>
+            <if test="specification != null">specification = #{specification},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="mechineName != null">mechineName = #{mechineName},</if>
+            <if test="createdate != null">createdate = #{createdate},</if>
+            <if test="modifydate != null">modifydate = #{modifydate},</if>
+            <if test="khdm != null">khdm = #{khdm},</if>
+            <if test="handler != null">handler = #{handler},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="updater != null">updater = #{updater},</if>
+            <if test="result != null">result = #{result},</if>
+            <if test="testCharge != null">testCharge = #{testCharge},</if>
+            <if test="xiancai != null">xiancai = #{xiancai},</if>
+            <if test="xianjing != null">xianjing = #{xianjing},</if>
+            <if test="hgcs != null">hgcs = #{hgcs},</if>
+            <if test="zdhg != null">zdhg = #{zdhg},</if>
+            <if test="qhd != null">qhd = #{qhd},</if>
+            <if test="qzj != null">qzj = #{qzj},</if>
+            <if test="xll != null">xll = #{xll},</if>
+            <if test="xtl != null">xtl = #{xtl},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteHxGxjcById" parameterType="Long">
+        delete from hx_gxjc where id = #{id}
+    </delete>
+
+    <delete id="deleteHxGxjcByIds" parameterType="String">
+        delete from hx_gxjc where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

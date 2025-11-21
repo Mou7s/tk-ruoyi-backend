@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.tk_custom.mapper.TkWorkshopMapper">
+    
+    <resultMap type="TkWorkshop" id="TkWorkshopResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="dept"    column="dept"    />
+        <result property="requesttime"    column="requesttime"    />
+        <result property="reason"    column="reason"    />
+        <result property="outtime"    column="outtime"    />
+    </resultMap>
+
+    <sql id="selectTkWorkshopVo">
+        select id, name, dept, requesttime, reason, outtime from tk_workshop
+    </sql>
+
+    <select id="selectTkWorkshopList" parameterType="TkWorkshop" resultMap="TkWorkshopResult">
+        <include refid="selectTkWorkshopVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="dept != null  and dept != ''"> and dept = #{dept}</if>
+            <if test="requesttime != null "> and requesttime = #{requesttime}</if>
+            <if test="reason != null  and reason != ''"> and reason = #{reason}</if>
+            <if test="outtime != null "> and outtime = #{outtime}</if>
+        </where>
+    </select>
+    
+    <select id="selectTkWorkshopById" parameterType="String" resultMap="TkWorkshopResult">
+        <include refid="selectTkWorkshopVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertTkWorkshop" parameterType="TkWorkshop">
+        insert into tk_workshop
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="dept != null">dept,</if>
+            <if test="requesttime != null">requesttime,</if>
+            <if test="reason != null and reason != ''">reason,</if>
+            <if test="outtime != null">outtime,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="dept != null">#{dept},</if>
+            <if test="requesttime != null">#{requesttime},</if>
+            <if test="reason != null and reason != ''">#{reason},</if>
+            <if test="outtime != null">#{outtime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTkWorkshop" parameterType="TkWorkshop">
+        update tk_workshop
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="dept != null">dept = #{dept},</if>
+            <if test="requesttime != null">requesttime = #{requesttime},</if>
+            <if test="reason != null and reason != ''">reason = #{reason},</if>
+            <if test="outtime != null">outtime = #{outtime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTkWorkshopById" parameterType="String">
+        delete from tk_workshop where id = #{id}
+    </delete>
+
+    <delete id="deleteTkWorkshopByIds" parameterType="String">
+        delete from tk_workshop where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

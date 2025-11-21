@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.tk_custom.mapper.PdMapper">
+    
+    <resultMap type="Pd" id="PdResult">
+        <result property="id"    column="id"    />
+        <result property="pdDate"    column="pdDate"    />
+        <result property="process"    column="process"    />
+        <result property="flowNo"    column="flowNo"    />
+        <result property="productId"    column="productId"    />
+        <result property="productName"    column="productName"    />
+        <result property="specification"    column="specification"    />
+        <result property="lot"    column="lot"    />
+        <result property="number"    column="number"    />
+        <result property="pdNumber"    column="pd_number"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectPdVo">
+        select id, pdDate, process, flowNo, productId, productName, specification, lot, number, pd_number, remark from pd
+    </sql>
+
+    <select id="selectPdList" parameterType="Pd" resultMap="PdResult">
+        <include refid="selectPdVo"/>
+        <where>  
+            <if test="pdDate != null  and pdDate != ''"> and pdDate = #{pdDate}</if>
+            <if test="process != null  and process != ''"> and process = #{process}</if>
+            <if test="flowNo != null  and flowNo != ''"> and flowNo like concat('%', #{flowNo}, '%')</if>
+            <if test="productId != null  and productId != ''"> and productId like concat('%', #{productId}, '%')</if>
+            <if test="productName != null  and productName != ''"> and productName like concat('%', #{productName}, '%')</if>
+            <if test="specification != null  and specification != ''"> and specification like concat('%', #{specification}, '%')</if>
+            <if test="lot != null  and lot != ''"> and lot like concat('%', #{lot}, '%')</if>
+        </where>
+        ORDER by pdDate DESC
+    </select>
+    
+    <select id="selectPdById" parameterType="String" resultMap="PdResult">
+        <include refid="selectPdVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertPd" parameterType="Pd">
+        insert into pd
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="pdDate != null">pdDate,</if>
+            <if test="process != null">process,</if>
+            <if test="flowNo != null">flowNo,</if>
+            <if test="productId != null">productId,</if>
+            <if test="productName != null">productName,</if>
+            <if test="specification != null">specification,</if>
+            <if test="lot != null">lot,</if>
+            <if test="number != null">number,</if>
+            <if test="pdNumber != null">pd_number,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="pdDate != null">#{pdDate},</if>
+            <if test="process != null">#{process},</if>
+            <if test="flowNo != null">#{flowNo},</if>
+            <if test="productId != null">#{productId},</if>
+            <if test="productName != null">#{productName},</if>
+            <if test="specification != null">#{specification},</if>
+            <if test="lot != null">#{lot},</if>
+            <if test="number != null">#{number},</if>
+            <if test="pdNumber != null">#{pdNumber},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePd" parameterType="Pd">
+        update pd
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pdDate != null">pdDate = #{pdDate},</if>
+            <if test="process != null">process = #{process},</if>
+            <if test="flowNo != null">flowNo = #{flowNo},</if>
+            <if test="productId != null">productId = #{productId},</if>
+            <if test="productName != null">productName = #{productName},</if>
+            <if test="specification != null">specification = #{specification},</if>
+            <if test="lot != null">lot = #{lot},</if>
+            <if test="number != null">number = #{number},</if>
+            <if test="pdNumber != null">pd_number = #{pdNumber},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePdById" parameterType="String">
+        delete from pd where id = #{id}
+    </delete>
+
+    <delete id="deletePdByIds" parameterType="String">
+        delete from pd where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

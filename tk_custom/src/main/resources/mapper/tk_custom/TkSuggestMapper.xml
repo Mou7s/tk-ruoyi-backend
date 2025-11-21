@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.tk_custom.mapper.TkSuggestMapper">
+    
+    <resultMap type="TkSuggest" id="TkSuggestResult">
+        <result property="id"    column="id"    />
+        <result property="suggestText"    column="suggest_text"    />
+        <result property="suggestTime"    column="suggest_time"    />
+        <result property="ipAdress"    column="ipAdress"    />
+        <result property="noSend"    column="noSend"    />
+    </resultMap>
+
+    <sql id="selectTkSuggestVo">
+        select id, suggest_text, suggest_time, ipAdress, noSend from tk_suggest
+    </sql>
+
+    <select id="selectTkSuggestList" parameterType="TkSuggest" resultMap="TkSuggestResult">
+        <include refid="selectTkSuggestVo"/>
+        <where>  
+            <if test="suggestText != null  and suggestText != ''"> and suggest_text = #{suggestText}</if>
+            <if test="suggestTime != null "> and suggest_time = #{suggestTime}</if>
+            <if test="ipAdress != null  and ipAdress != ''"> and ipAdress = #{ipAdress}</if>
+            <if test="noSend != null  and noSend != ''"> and noSend = #{noSend}</if>
+        </where>
+        order by suggest_time DESC
+    </select>
+    
+    <select id="selectTkSuggestById" parameterType="String" resultMap="TkSuggestResult">
+        <include refid="selectTkSuggestVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertTkSuggest" parameterType="TkSuggest">
+        insert into tk_suggest
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="suggestText != null">suggest_text,</if>
+            <if test="suggestTime != null">suggest_time,</if>
+            <if test="ipAdress != null">ipAdress,</if>
+            <if test="noSend != null">noSend,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="suggestText != null">#{suggestText},</if>
+            <if test="suggestTime != null">#{suggestTime},</if>
+            <if test="ipAdress != null">#{ipAdress},</if>
+            <if test="noSend != null">#{noSend},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTkSuggest" parameterType="TkSuggest">
+        update tk_suggest
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="suggestText != null">suggest_text = #{suggestText},</if>
+            <if test="suggestTime != null">suggest_time = #{suggestTime},</if>
+            <if test="ipAdress != null">ipAdress = #{ipAdress},</if>
+            <if test="noSend != null">noSend = #{noSend},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTkSuggestById" parameterType="String">
+        delete from tk_suggest where id = #{id}
+    </delete>
+
+    <delete id="deleteTkSuggestByIds" parameterType="String">
+        delete from tk_suggest where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

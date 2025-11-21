@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.tk_custom.mapper.KucunMapper">
+    
+    <resultMap type="Kucun" id="KucunResult">
+        <result property="id"    column="id"    />
+        <result property="kdBillno"    column="kd_billno"    />
+        <result property="kdWlbm"    column="kd_wlbm"    />
+        <result property="kdWumc"    column="kd_wumc"    />
+        <result property="kdGgxh"    column="kd_ggxh"    />
+        <result property="kdCangkuId"    column="kd_cangku_id"    />
+        <result property="kdCangkuName"    column="kd_cangku_name"    />
+        <result property="kdKuweiId"    column="kd_kuwei_id"    />
+        <result property="kdKuweiName"    column="kd_kuwei_name"    />
+        <result property="kdChukuNumber"    column="kd_chuku_number"    />
+        <result property="kdChukuTime"    column="kd_chuku_time"    />
+        <result property="syncTime"    column="sync_time"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+
+    <sql id="selectKucunVo">
+        select id, kd_billno,status, kd_wlbm, kd_wumc, kd_ggxh, kd_cangku_id, kd_cangku_name, kd_kuwei_id, kd_kuwei_name, kd_chuku_number, kd_chuku_time, sync_time from kucun
+    </sql>
+
+    <select id="selectKucunList" parameterType="Kucun" resultMap="KucunResult">
+        <include refid="selectKucunVo"/>
+        <where>  
+            <if test="kdBillno != null  and kdBillno != ''"> and kd_billno like concat('%', #{kdBillno}, '%')</if>
+            <if test="kdWlbm != null  and kdWlbm != ''"> and kd_wlbm like concat('%', #{kdWlbm}, '%')</if>
+            <if test="kdWumc != null  and kdWumc != ''"> and kd_wumc like concat('%', #{kdWumc}, '%')</if>
+            <if test="kdGgxh != null  and kdGgxh != ''"> and kd_ggxh like concat('%', #{kdGgxh}, '%')</if>
+            <if test="kdCangkuName != null  and kdCangkuName != ''"> and kd_cangku_name like concat('%', #{kdCangkuName}, '%')</if>
+            <if test="kdKuweiName != null  and kdKuweiName != ''"> and kd_kuwei_name like concat('%', #{kdKuweiName}, '%')</if>
+            <if test="kdChukuTime != null "> and kd_chuku_time = #{kdChukuTime}</if>
+            <if test="syncTime != null "> and sync_time = #{syncTime}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    <select id="selectLastTime" resultMap="KucunResult">
+        <include refid="selectKucunVo"/>  order by sync_time desc limit 1
+    </select>
+    <select id="selectKucunById" parameterType="String" resultMap="KucunResult">
+        <include refid="selectKucunVo"/>
+        where id = #{id}
+    </select>
+    <resultMap type="com.ruoyi.tk_custom.domain.Kucun_Sum" id="KucunSumResult">
+        <result property="kdWlbm"    column="kd_wlbm"    />
+        <result property="kdWumc"    column="kd_wumc"    />
+        <result property="kdGgxh"    column="kd_ggxh"    />
+        <result property="kdCangkuName"    column="kd_cangku_name"    />
+        <result property="kdKuweiName"    column="kd_kuwei_name"    />
+        <result property="kdChukuNumber"    column="kdChukuNumber"    />
+    </resultMap>
+<select id="selectKuCun"  parameterType="Kucun" resultMap="KucunSumResult">
+    select sum(kd_chuku_number) kdChukuNumber,kd_wlbm,kd_wumc,kd_ggxh,substring_index(kd_cangku_name,'/',1) kd_cangku_name,kd_kuwei_name from kucun
+    <where>
+         status='C'
+        <if test="kdWlbm != null  and kdWlbm != ''"> and kd_wlbm like concat('%', #{kdWlbm}, '%')</if>
+        <if test="kdWumc != null  and kdWumc != ''"> and kd_wumc like concat('%', #{kdWumc}, '%')</if>
+        <if test="kdGgxh != null  and kdGgxh != ''"> and kd_ggxh like concat('%', #{kdGgxh}, '%')</if>
+        <if test="kdCangkuName != null  and kdCangkuName != ''"> and kd_cangku_name like concat('%', #{kdCangkuName}, '%')</if>
+        <if test="kdKuweiName != null  and kdKuweiName != ''"> and kd_kuwei_name like concat('%', #{kdKuweiName}, '%')</if>
+    </where>
+    group by kd_wlbm,kd_wumc,kd_ggxh,substring_index(kd_cangku_name,'/',1),kd_kuwei_name
+</select>
+    <select id="selectXSTHTotal"  parameterType="Kucun" resultType="java.math.BigDecimal">
+        select sum(kd_chuku_number) from kucun
+        <where>
+            status='C'  and kd_billno  like 'XSTH%'
+            <if test="kdWlbm != null  and kdWlbm != ''"> and kd_wlbm like concat('%', #{kdWlbm}, '%')</if>
+            <if test="kdWumc != null  and kdWumc != ''"> and kd_wumc like concat('%', #{kdWumc}, '%')</if>
+            <if test="kdGgxh != null  and kdGgxh != ''"> and kd_ggxh like concat('%', #{kdGgxh}, '%')</if>
+            <if test="kdCangkuName != null  and kdCangkuName != ''"> and kd_cangku_name like concat('%', #{kdCangkuName}, '%')</if>
+            <if test="kdKuweiName != null  and kdKuweiName != ''"> and kd_kuwei_name like concat('%', #{kdKuweiName}, '%')</if>
+        </where>
+    </select>
+    <select id="selectXSCHTotal"  parameterType="Kucun" resultType="java.math.BigDecimal">
+        select sum(kd_chuku_number) from kucun
+        <where>
+            status='C' and kd_billno not like 'XSTH%'
+            <if test="kdWlbm != null  and kdWlbm != ''"> and kd_wlbm like concat('%', #{kdWlbm}, '%')</if>
+            <if test="kdWumc != null  and kdWumc != ''"> and kd_wumc like concat('%', #{kdWumc}, '%')</if>
+            <if test="kdGgxh != null  and kdGgxh != ''"> and kd_ggxh like concat('%', #{kdGgxh}, '%')</if>
+            <if test="kdCangkuName != null  and kdCangkuName != ''"> and kd_cangku_name like concat('%', #{kdCangkuName}, '%')</if>
+            <if test="kdKuweiName != null  and kdKuweiName != ''"> and kd_kuwei_name like concat('%', #{kdKuweiName}, '%')</if>
+        </where>
+    </select>
+    <insert id="insertKucun" parameterType="Kucun">
+        insert into kucun
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="kdBillno != null">kd_billno,</if>
+            <if test="kdWlbm != null">kd_wlbm,</if>
+            <if test="kdWumc != null">kd_wumc,</if>
+            <if test="kdGgxh != null">kd_ggxh,</if>
+            <if test="kdCangkuId != null">kd_cangku_id,</if>
+            <if test="kdCangkuName != null">kd_cangku_name,</if>
+            <if test="kdKuweiId != null">kd_kuwei_id,</if>
+            <if test="kdKuweiName != null">kd_kuwei_name,</if>
+            <if test="kdChukuNumber != null">kd_chuku_number,</if>
+            <if test="kdChukuTime != null">kd_chuku_time,</if>
+            <if test="syncTime != null">sync_time,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="kdBillno != null">#{kdBillno},</if>
+            <if test="kdWlbm != null">#{kdWlbm},</if>
+            <if test="kdWumc != null">#{kdWumc},</if>
+            <if test="kdGgxh != null">#{kdGgxh},</if>
+            <if test="kdCangkuId != null">#{kdCangkuId},</if>
+            <if test="kdCangkuName != null">#{kdCangkuName},</if>
+            <if test="kdKuweiId != null">#{kdKuweiId},</if>
+            <if test="kdKuweiName != null">#{kdKuweiName},</if>
+            <if test="kdChukuNumber != null">#{kdChukuNumber},</if>
+            <if test="kdChukuTime != null">#{kdChukuTime},</if>
+            <if test="syncTime != null">#{syncTime},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateKucun" parameterType="Kucun">
+        update kucun
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="kdBillno != null">kd_billno = #{kdBillno},</if>
+            <if test="kdWlbm != null">kd_wlbm = #{kdWlbm},</if>
+            <if test="kdWumc != null">kd_wumc = #{kdWumc},</if>
+            <if test="kdGgxh != null">kd_ggxh = #{kdGgxh},</if>
+            <if test="kdCangkuId != null">kd_cangku_id = #{kdCangkuId},</if>
+            <if test="kdCangkuName != null">kd_cangku_name = #{kdCangkuName},</if>
+            <if test="kdKuweiId != null">kd_kuwei_id = #{kdKuweiId},</if>
+            <if test="kdKuweiName != null">kd_kuwei_name = #{kdKuweiName},</if>
+            <if test="kdChukuNumber != null">kd_chuku_number = #{kdChukuNumber},</if>
+            <if test="kdChukuTime != null">kd_chuku_time = #{kdChukuTime},</if>
+            <if test="syncTime != null">sync_time = #{syncTime},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteKucunById" parameterType="String">
+        delete from kucun where id = #{id}
+    </delete>
+    <delete id="deleteAll" >
+        delete from kucun
+    </delete>
+    <delete id="deleteKucunByIds" parameterType="String">
+        delete from kucun where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

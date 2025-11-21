@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.tk_custom.mapper.DkPicMapper">
+
+    <resultMap type="DkPic" id="DkPicResult">
+        <result property="id" column="id"/>
+        <result property="flowno" column="flowno"/>
+        <result property="materialno" column="materialno"/>
+        <result property="materialname" column="materialname"/>
+        <result property="specification" column="specification"/>
+        <result property="remark" column="remark"/>
+        <result property="imgPaths" column="imgPaths"/>
+        <result property="mechineName" column="mechineName"/>
+        <result property="createdate" column="createdate"/>
+        <result property="modifydate" column="modifydate"/>
+        <result property="xpdm" column="xpdm"/>
+        <result property="xpph" column="xpph"/>
+        <result property="khdm" column="khdm"/>
+        <result property="handler" column="handler"/>
+        <result property="creator" column="creator"/>
+        <result property="updater" column="updater"/>
+        <result property="result" column="result"/>
+        <result property="testNumber" column="testNumber"/>
+        <result property="testCharge" column="testCharge"/>
+    </resultMap>
+
+    <sql id="selectDkPicVo">
+            select id, flowno, materialno, materialname, specification, remark, imgPaths, mechineName, createdate, modifydate, xpdm, xpph, khdm, handler, creator, updater, result, testNumber, testCharge from dk_pic
+        </sql>
+
+    <select id="selectDkPicList" parameterType="DkPic" resultMap="DkPicResult">
+        <include refid="selectDkPicVo"/>
+        <where>
+            <if test="flowno != null  and flowno != ''">and flowno like concat('%', #{flowno},'%')</if>
+            <if test="materialno != null  and materialno != ''">and materialno = #{materialno}</if>
+            <if test="materialname != null  and materialname != ''">and materialname like concat('%', #{materialname},
+                '%')
+            </if>
+            <if test="specification != null  and specification != ''">and specification like concat('%',
+                #{specification},'%')
+            </if>
+            <if test="imgPaths != null  and imgPaths != ''">and imgPaths = #{imgPaths}</if>
+            <if test="mechineName != null  and mechineName != ''">and mechineName like concat('%', #{mechineName},
+                '%')
+            </if>
+            <if test="params.beginCreatedate != null and params.beginCreatedate != '' and params.endCreatedate != null and params.endCreatedate != ''">
+                and createdate between #{params.beginCreatedate} and #{params.endCreatedate}
+            </if>
+            <if test="params.beginModifydate != null and params.beginModifydate != '' and params.endModifydate != null and params.endModifydate != ''">
+                and modifydate between #{params.beginModifydate} and #{params.endModifydate}
+            </if>
+            <if test="xpdm != null  and xpdm != ''">and xpdm like concat('%', #{xpdm},'%')</if>
+            <if test="xpph != null  and xpph != ''">and xpph like concat('%', #{xpph},'%')</if>
+            <if test="khdm != null  and khdm != ''">and khdm like concat('%', #{khdm},'%')</if>
+            <if test="handler != null  and handler != ''">and handler like concat('%', #{handler},'%')</if>
+            <if test="creator != null  and creator != ''">and creator like concat('%', #{creator},'%')</if>
+            <if test="updater != null  and updater != ''">and updater like concat('%', #{updater},'%')</if>
+            <if test="result != null  and result != ''">and result like concat('%', #{result},'%')</if>
+            <if test="testNumber != null  and testNumber != ''">and testNumber = #{testNumber}</if>
+            <if test="testCharge != null  and testCharge != ''">and testCharge like concat('%', #{testCharge}, '%')</if>
+        </where>
+        order by createdate DESC
+    </select>
+    <select id="getHandlerList" resultType="java.lang.String">
+--       select distinct handler from dk_pic limit 100
+     select distinct  a.handler from (select dp.handler, dp.createdate from dk_pic dp order by dp.createdate DESC limit 20) a limit 10;
+  </select>
+    <select id="getMechineList" resultType="java.lang.String">
+        select distinct mechineName from dk_pic limit 100
+    </select>
+    <select id="selectDkPicById" parameterType="Long" resultMap="DkPicResult">
+        <include refid="selectDkPicVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertDkPic" parameterType="DkPic" useGeneratedKeys="true" keyProperty="id">
+        insert into dk_pic
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="flowno != null">flowno,</if>
+            <if test="materialno != null">materialno,</if>
+            <if test="materialname != null">materialname,</if>
+            <if test="specification != null">specification,</if>
+            <if test="remark != null">remark,</if>
+            <if test="imgPaths != null">imgPaths,</if>
+            <if test="mechineName != null">mechineName,</if>
+            <if test="createdate != null">createdate,</if>
+            <if test="modifydate != null">modifydate,</if>
+            <if test="xpdm != null">xpdm,</if>
+            <if test="xpph != null">xpph,</if>
+            <if test="khdm != null">khdm,</if>
+            <if test="handler != null">handler,</if>
+            <if test="creator != null">creator,</if>
+            <if test="updater != null">updater,</if>
+            <if test="result != null">result,</if>
+            <if test="testNumber != null">testNumber,</if>
+            <if test="testCharge != null">testCharge,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="flowno != null">#{flowno},</if>
+            <if test="materialno != null">#{materialno},</if>
+            <if test="materialname != null">#{materialname},</if>
+            <if test="specification != null">#{specification},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="imgPaths != null">#{imgPaths},</if>
+            <if test="mechineName != null">#{mechineName},</if>
+            <if test="createdate != null">#{createdate},</if>
+            <if test="modifydate != null">#{modifydate},</if>
+            <if test="xpdm != null">#{xpdm},</if>
+            <if test="xpph != null">#{xpph},</if>
+            <if test="khdm != null">#{khdm},</if>
+            <if test="handler != null">#{handler},</if>
+            <if test="creator != null">#{creator},</if>
+            <if test="updater != null">#{updater},</if>
+            <if test="result != null">#{result},</if>
+            <if test="testNumber != null">#{testNumber},</if>
+            <if test="testCharge != null">#{testCharge},</if>
+        </trim>
+    </insert>
+
+    <update id="updateDkPic" parameterType="DkPic">
+        update dk_pic
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="flowno != null">flowno = #{flowno},</if>
+            <if test="materialno != null">materialno = #{materialno},</if>
+            <if test="materialname != null">materialname = #{materialname},</if>
+            <if test="specification != null">specification = #{specification},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="imgPaths != null">imgPaths = #{imgPaths},</if>
+            <if test="mechineName != null">mechineName = #{mechineName},</if>
+            <if test="createdate != null">createdate = #{createdate},</if>
+            <if test="modifydate != null">modifydate = #{modifydate},</if>
+            <if test="xpdm != null">xpdm = #{xpdm},</if>
+            <if test="xpph != null">xpph = #{xpph},</if>
+            <if test="khdm != null">khdm = #{khdm},</if>
+            <if test="handler != null">handler = #{handler},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="updater != null">updater = #{updater},</if>
+            <if test="result != null">result = #{result},</if>
+            <if test="testNumber != null">testNumber = #{testNumber},</if>
+            <if test="testCharge != null">testCharge = #{testCharge},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDkPicById" parameterType="Long">
+            delete from dk_pic where id = #{id}
+        </delete>
+
+    <delete id="deleteDkPicByIds" parameterType="String">
+        delete from dk_pic where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectDkPicByIds" parameterType="String" resultMap="DkPicResult">
+        <include refid="selectDkPicVo"/>
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+</mapper>
