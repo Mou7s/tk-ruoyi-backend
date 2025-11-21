@@ -66,6 +66,18 @@ public class SecurityUtils
         }
     }
 
+    public static String getNickname()
+    {
+        try
+        {
+            return getLoginUser().getUser().getNickName();
+        }
+        catch (Exception e)
+        {
+            throw new ServiceException("获取用户账户异常", HttpStatus.UNAUTHORIZED);
+        }
+    }
+
     /**
      * 获取用户
      **/

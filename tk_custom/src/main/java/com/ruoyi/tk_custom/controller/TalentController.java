@@ -70,7 +70,7 @@ public class TalentController extends BaseController {
     @PostMapping("/addTalentInfo")
     public AjaxResult addTalentInfo(@RequestBody Talent talent){
         talent.setCreateTime(new Date());
-        talent.setCreator(SecurityUtils.getUsername());
+        talent.setCreator(SecurityUtils.getNickname());
         talentService.insertTalent(talent);
        return AjaxResult.success(talent);
     }
@@ -115,7 +115,7 @@ public class TalentController extends BaseController {
                 }
             }
         });
-        talent.setModifier(SecurityUtils.getUsername());
+        talent.setModifier(SecurityUtils.getNickname());
         talent.setUpdateTime(new Date());
         return toAjax(talentService.updateTalent(talent));
     }
