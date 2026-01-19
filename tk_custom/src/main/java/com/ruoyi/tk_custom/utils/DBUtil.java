@@ -400,9 +400,9 @@ public class DBUtil {
         }
         long time=(new Date().getTime()-date.getTime())/ 1000;
         if(success==0){
-            WXUtil.sendMsg("itGongChengShi-WenFengSheng|BingTangHuLu","优化成本数据【失败】，请重试！\n执行时间："+dateStr+"\n总耗时："+time+"秒");
+            WXUtil.sendMsg("BingTangHuLu","优化成本数据【失败】，请重试！\n执行时间："+dateStr+"\n总耗时："+time+"秒");
         }else {
-            WXUtil.sendMsg("itGongChengShi-WenFengSheng|BingTangHuLu","优化成本数据成功！\n执行时间："+dateStr+"\n总耗时："+time+"秒");
+            WXUtil.sendMsg("BingTangHuLu","优化成本数据成功！\n执行时间："+dateStr+"\n总耗时："+time+"秒");
         }
     }
     //反写工序计划单号到生成订单 todo
