@@ -1,3 +1,4 @@
+chcp 65001 >nul
 @echo off
 
 rem jar平级目录
