@@ -1,12 +1,21 @@
-@echo off
+ï»¿@echo off
+setlocal
+REM UTF-8 output in Windows Console
+chcp 65001 >nul
+
 echo.
-echo [ĞÅÏ¢] ´ò°üWeb¹¤³Ì£¬Éú³Éwar/jar°üÎÄ¼ş¡£
+echo [INFO] æ‰“åŒ… Web å·¥ç¨‹ï¼Œç”Ÿæˆ Jar åŒ…æ–‡ä»¶ã€‚
 echo.
 
-%~d0
-cd %~dp0
+REM åˆ‡åˆ°è„šæœ¬æ‰€åœ¨ç›®å½•
+pushd "%~dp0"
+REM åˆ‡åˆ°ä»“åº“æ ¹ç›®å½•
+pushd ".."
 
-cd ..
+REM Package without tests to speed up local builds
 call mvn clean package -Dmaven.test.skip=true
 
+popd
+popd
 pause
+endlocal

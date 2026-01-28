@@ -1,12 +1,21 @@
-@echo off
+ï»¿@echo off
+setlocal
+REM UTF-8 output in Windows Console
+chcp 65001 >nul
+
 echo.
-echo [ĞÅÏ¢] ÇåÀí¹¤³ÌtargetÉú³ÉÂ·¾¶¡£
+echo [INFO] æ¸…ç†å·¥ç¨‹ target ç”Ÿæˆè·¯å¾„ã€‚
 echo.
 
-%~d0
-cd %~dp0
+REM åˆ‡åˆ°è„šæœ¬æ‰€åœ¨ç›®å½•
+pushd "%~dp0"
+REM åˆ‡åˆ°ä»“åº“æ ¹ç›®å½•
+pushd ".."
 
-cd ..
+REM Clean build artifacts
 call mvn clean
 
+popd
+popd
 pause
+endlocal
