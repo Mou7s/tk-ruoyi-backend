@@ -58,7 +58,7 @@ public class PdServiceImpl implements IPdService
     public int insertPd(Pd pd)
     {
         pd.setId(UUID.randomUUID().toString());
-        pd.setPdDate(DateUtils.dateTimeNow("YYYY-MM-dd"));
+        pd.setPdDate(DateUtils.dateTimeNow(DateUtils.YYYY_MM_DD));
         return pdMapper.insertPd(pd);
     }
 
@@ -71,7 +71,7 @@ public class PdServiceImpl implements IPdService
     @Override
     public int updatePd(Pd pd)
     {
-        pd.setPdDate(DateUtils.dateTimeNow("YYYY-MM-dd"));
+        pd.setPdDate(DateUtils.dateTimeNow(DateUtils.YYYY_MM_DD));
         return pdMapper.updatePd(pd);
     }
 
