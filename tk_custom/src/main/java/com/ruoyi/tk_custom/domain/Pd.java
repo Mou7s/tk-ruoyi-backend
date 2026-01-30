@@ -12,8 +12,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author wfs
  * @date 2024-11-27
  */
-public class Pd extends BaseEntity
-{
+public class Pd extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**  */
@@ -55,6 +54,10 @@ public class Pd extends BaseEntity
     @Excel(name = "盘点数量")
     private BigDecimal pdNumber;
 
+    /** 工序状态 */
+    @Excel(name = "工序状态")
+    private String processStatus;
+
     public String getIsUpdatePdData() {
         return isUpdatePdData;
     }
@@ -64,111 +67,109 @@ public class Pd extends BaseEntity
     }
 
     private String isUpdatePdData;
-    public void setId(String id) 
-    {
+
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getId() 
-    {
+    public String getId() {
         return id;
     }
-    public void setPdDate(String pdDate) 
-    {
+
+    public void setPdDate(String pdDate) {
         this.pdDate = pdDate;
     }
 
-    public String getPdDate() 
-    {
+    public String getPdDate() {
         return pdDate;
     }
-    public void setProcess(String process) 
-    {
+
+    public void setProcess(String process) {
         this.process = process;
     }
 
-    public String getProcess() 
-    {
+    public String getProcess() {
         return process;
     }
-    public void setFlowNo(String flowNo) 
-    {
+
+    public void setFlowNo(String flowNo) {
         this.flowNo = flowNo;
     }
 
-    public String getFlowNo() 
-    {
+    public String getFlowNo() {
         return flowNo;
     }
-    public void setProductId(String productId) 
-    {
+
+    public void setProductId(String productId) {
         this.productId = productId;
     }
 
-    public String getProductId() 
-    {
+    public String getProductId() {
         return productId;
     }
-    public void setProductName(String productName) 
-    {
+
+    public void setProductName(String productName) {
         this.productName = productName;
     }
 
-    public String getProductName() 
-    {
+    public String getProductName() {
         return productName;
     }
-    public void setSpecification(String specification) 
-    {
+
+    public void setSpecification(String specification) {
         this.specification = specification;
     }
 
-    public String getSpecification() 
-    {
+    public String getSpecification() {
         return specification;
     }
-    public void setLot(String lot) 
-    {
+
+    public void setLot(String lot) {
         this.lot = lot;
     }
 
-    public String getLot() 
-    {
+    public String getLot() {
         return lot;
     }
-    public void setNumber(BigDecimal number) 
-    {
+
+    public void setNumber(BigDecimal number) {
         this.number = number;
     }
 
-    public BigDecimal getNumber() 
-    {
+    public BigDecimal getNumber() {
         return number;
     }
-    public void setPdNumber(BigDecimal pdNumber) 
-    {
+
+    public void setPdNumber(BigDecimal pdNumber) {
         this.pdNumber = pdNumber;
     }
 
-    public BigDecimal getPdNumber() 
-    {
+    public BigDecimal getPdNumber() {
         return pdNumber;
+    }
+
+    public void setProcessStatus(String processStatus) {
+        this.processStatus = processStatus;
+    }
+
+    public String getProcessStatus() {
+        return processStatus;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("pdDate", getPdDate())
-            .append("process", getProcess())
-            .append("flowNo", getFlowNo())
-            .append("productId", getProductId())
-            .append("productName", getProductName())
-            .append("specification", getSpecification())
-            .append("lot", getLot())
-            .append("number", getNumber())
-            .append("pdNumber", getPdNumber())
-            .append("remark", getRemark())
-            .toString();
+        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+                .append("id", getId())
+                .append("pdDate", getPdDate())
+                .append("process", getProcess())
+                .append("flowNo", getFlowNo())
+                .append("productId", getProductId())
+                .append("productName", getProductName())
+                .append("specification", getSpecification())
+                .append("lot", getLot())
+                .append("number", getNumber())
+                .append("pdNumber", getPdNumber())
+                .append("remark", getRemark())
+                .toString();
     }
 }
