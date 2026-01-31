@@ -56,6 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="number != null">number,</if>
             <if test="pdNumber != null">pd_number,</if>
             <if test="remark != null">remark,</if>
+            <if test="processStatus != null">process_status,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
@@ -69,6 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="number != null">#{number},</if>
             <if test="pdNumber != null">#{pdNumber},</if>
             <if test="remark != null">#{remark},</if>
+            <if test="processStatus != null">#{processStatus},</if>
         </trim>
     </insert>
 
@@ -85,6 +87,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="number != null">number = #{number},</if>
             <if test="pdNumber != null">pd_number = #{pdNumber},</if>
             <if test="remark != null">remark = #{remark},</if>
+            <if test="processStatus != null">process_status = #{processStatus},</if>
         </trim>
         where id = #{id}
     </update>
